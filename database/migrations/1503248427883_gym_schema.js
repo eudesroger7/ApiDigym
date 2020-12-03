@@ -10,7 +10,8 @@ class GymsSchema extends Schema {
             table.string('name', 150).notNullable();
             table.string('address', 350).notNullable();
             table.integer('capacity').notNullable();
-            table.integer('phone').nullable();
+            table.string('phone').nullable();
+            table.integer('owner_id').unsigned().references('id').inTable('owners');
             table.timestamps();
         });
     }

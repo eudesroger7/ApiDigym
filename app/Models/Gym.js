@@ -4,18 +4,25 @@
 const Model = use('Model')
 
 class Gym extends Model {
-  static boot () {
-    super.boot()
-  }
+    static boot() {
+        super.boot()
+    }
 
+    /**
+         * @method owner
+         * @return {Object}
+         */
+    owner() {
+        return this.belongsTo('App/Models/Owner')
+    }
 
-  /**
-   * @method users
-   * @return {Object}
-   */
-  users () {
-    return this.hasMany('App/Models/User')
-  }
+    /**
+     * @method students
+     * @return {Object}
+     */
+    students() {
+        return this.hasMany('App/Models/Student')
+    }
 }
 
 module.exports = Gym

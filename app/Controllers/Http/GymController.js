@@ -14,7 +14,7 @@ class GymController {
         const gyms = await Gym.query().where(builder => {
             if (search) builder.where('name', 'like', `%${search}%`).orWhere('address', 'like', `%${search}%`).orWhere('phone', 'like', `%${search}%`);
         }).paginate(+page, +limit);
-        return response.json(gymTransformerCollection(gyms));
+        return response.json(gyms);
     }
 
     /**
@@ -24,9 +24,9 @@ class GymController {
     * @returns {Promise<*>}
     */
     async store({ request, response }) {
-        const { name, address, capacity, phone } = request.body;
-        const gym = await Gym.create({ name, address, capacity, phone });
-        return response.json(gymTransformer(gym));
+        const { name, address, capacity, phone, owner_id } = request.body;
+        const gym = await Gym.create({ name, address, capacity, phone, owner_id });
+        return response.json(gym);
     }
 
     /**
@@ -39,8 +39,8 @@ class GymController {
         try {
             const { id } = params;
             const gym = await Gym.findOrFail(id);
-            await gym.load('gym');
-            return response.json(gymTransformer(gym));
+            await gym.load('owner', builder => builder.select('id', 'user_id').with('user', query => query.select('id', 'name', 'email')));
+            return response.json(gym);
         } catch (error) {
             response.status(400).send({ message: 'Academia não existe' });
         }
@@ -65,11 +65,11 @@ class GymController {
             } = request.body;
 
             gym.name = name,
-            gym.phone = phone,
-            gym.address = address,
-            gym.capacity = capacity,
-            await gym.save();
-            return response.json(gymTransformer(gym));
+                gym.phone = phone,
+                gym.address = address,
+                gym.capacity = capacity,
+                await gym.save();
+            return response.json(gym);
         } catch (error) {
             response.status(400).send({ message: 'Academia não existe' });
         }

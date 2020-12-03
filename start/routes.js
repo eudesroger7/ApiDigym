@@ -19,16 +19,47 @@ const Route = use('Route');
 Route.on('/').render('welcome');
 
 Route.group(() => {
-  Route.post('token', 'AuthController.token');
-  Route.get('authenticated', 'AuthController.authenticated').middleware(['auth']);
+    Route.post('token', 'AuthController.token');
+    Route.get('authenticated', 'AuthController.authenticated').middleware(['auth']);
 }).prefix('auth');
 
 Route.group(() => {
-  Route.get('', 'UserController.index');
-  Route.post('', 'UserController.store');
-  Route.put('changePassword', 'UserController.changePassword');
-  Route.get(':id', 'UserController.show');
-  Route.put(':id', 'UserController.update');
-  Route.delete(':id', 'UserController.destroy');
+    Route.get('', 'UserController.index');
+    Route.post('', 'UserController.store');
+    Route.put('changePassword', 'UserController.changePassword');
+    Route.get(':id', 'UserController.show');
+    Route.put(':id', 'UserController.update');
+    Route.delete(':id', 'UserController.destroy');
 }).prefix('api/users').middleware(['auth']);
 
+Route.group(() => {
+    Route.get('', 'OwnerController.index');
+    Route.post('', 'OwnerController.store');
+    Route.get(':id', 'OwnerController.show');
+    Route.put(':id', 'OwnerController.update');
+    Route.delete(':id', 'OwnerController.destroy');
+}).prefix('api/owners').middleware(['auth']);
+
+Route.group(() => {
+    Route.get('', 'StudentController.index');
+    Route.post('', 'StudentController.store');
+    Route.get(':id', 'StudentController.show');
+    Route.put(':id', 'StudentController.update');
+    Route.delete(':id', 'StudentController.destroy');
+}).prefix('api/students').middleware(['auth']);
+
+Route.group(() => {
+    Route.get('', 'GymController.index');
+    Route.post('', 'GymController.store');
+    Route.get(':id', 'GymController.show');
+    Route.put(':id', 'GymController.update');
+    Route.delete(':id', 'GymController.destroy');
+}).prefix('api/gyms').middleware(['auth']);
+
+Route.group(() => {
+    Route.get('', 'TrainingController.index');
+    Route.post('', 'TrainingController.store');
+    Route.get(':id', 'TrainingController.show');
+    Route.put(':id', 'TrainingController.update');
+    Route.delete(':id', 'TrainingController.destroy');
+}).prefix('api/training').middleware(['auth']);

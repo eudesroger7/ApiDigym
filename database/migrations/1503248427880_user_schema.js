@@ -11,7 +11,6 @@ class UsersSchema extends Schema {
             table.string('email', 250).notNullable().unique();
             table.string('password', 120).notNullable();
             table.integer('user_type_id').notNullable();
-            table.integer('gym_id').unsigned().references('id').inTable('gyms');
             table.timestamps();
         });
     }

@@ -3,27 +3,27 @@
 /** @type {typeof import('@adonisjs/lucid/src/Lucid/Model')} */
 const Model = use('Model')
 
-class Gym extends Model {
-  static boot() {
-    super.boot()
-  }
+class Training extends Model {
+    static boot() {
+        super.boot()
+    }
 
 
-  /**
-   * @method user
-   * @return {Object}
-   */
-  user() {
-    return this.belongsTo('App/Models/User')
-  }
+    /**
+     * @method student
+     * @return {Object}
+     */
+    student() {
+        return this.belongsTo('App/Models/Student')
+    }
 
-  /**
-  * @method gym
-  * @return {Object}
-  */
-  gym() {
-    return this.belongsTo('App/Models/Gym')
-  }
+    /**
+    * @method gym
+    * @return {Object}
+    */
+    gym() {
+        return this.belongsTo('App/Models/Gym')
+    }
 }
 
-module.exports = Gym
+module.exports = Training
