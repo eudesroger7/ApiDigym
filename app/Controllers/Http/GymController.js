@@ -10,10 +10,13 @@ class GymController {
     * @returns {Promise<*>}
     */
     async index({ request, response }) {
-        const { page = 1, limit = 20, search } = request.all();
-        const gyms = await Gym.query().where(builder => {
-            if (search) builder.where('name', 'like', `%${search}%`).orWhere('address', 'like', `%${search}%`).orWhere('phone', 'like', `%${search}%`);
-        }).paginate(+page, +limit);
+        const { page = 1, limit = 20, search, owner_id } = request.all();
+        const gyms = await Gym.query()
+            .where(builder => {
+                if (search) builder.where('name', 'like', `%${search}%`).orWhere('phone', 'like', `%${search}%`);
+                if (owner_id) builder.where('owner_id', owner_id)
+            })
+            .paginate(+page, +limit);
         return response.json(gyms);
     }
 
