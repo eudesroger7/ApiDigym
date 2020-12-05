@@ -14,6 +14,7 @@ class GymsSchema extends Schema {
             table.string('state', 100).nullable();
             table.string('district', 150).nullable();
             table.string('zip_code', 15).nullable();
+            table.string('complement', 350).nullable();
             table.float('lat').nullable();
             table.float('lng').nullable();
             table.integer('capacity').notNullable();

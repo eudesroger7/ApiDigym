@@ -24,8 +24,36 @@ class GymController {
     * @returns {Promise<*>}
     */
     async store({ request, response }) {
-        const { name, address, capacity, phone, owner_id } = request.body;
-        const gym = await Gym.create({ name, address, capacity, phone, owner_id });
+        const {
+            name,
+            street,
+            number,
+            city,
+            district,
+            complement,
+            state,
+            zip_code,
+            lat,
+            lng,
+            capacity,
+            phone,
+            owner_id
+        } = request.body;
+        const gym = await Gym.create({
+            name,
+            street,
+            number,
+            city,
+            district,
+            complement,
+            state,
+            zip_code,
+            lat,
+            lng,
+            capacity,
+            phone,
+            owner_id
+        });
         return response.json(gym);
     }
 
@@ -59,16 +87,32 @@ class GymController {
             const gym = await Gym.findOrFail(id);
             const {
                 name = gym.name,
-                phone = gym.phone,
-                address = gym.address,
+                street = gym.street,
+                number = gym.number,
+                city = gym.city,
+                district = gym.district,
+                complement = gym.complement,
+                state = gym.state,
+                zip_code = gym.zip_code,
+                lat = gym.lat,
+                lng = gym.lng,
                 capacity = gym.capacity,
+                phone = gym.phone,
             } = request.body;
 
-            gym.name = name,
-                gym.phone = phone,
-                gym.address = address,
-                gym.capacity = capacity,
-                await gym.save();
+            name = name;
+            street = street;
+            number = number;
+            city = city;
+            district = district;
+            complement = complement;
+            state = state;
+            zip_code = zip_code;
+            lat = lat;
+            lng = lng;
+            capacity = capacity;
+            phone = phone;
+            await gym.save();
             return response.json(gym);
         } catch (error) {
             response.status(400).send({ message: 'Academia não existe' });
