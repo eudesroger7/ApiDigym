@@ -12,10 +12,15 @@ class UserController {
      */
     async index({ request, response }) {
         const { page = 1, limit = 20, search } = request.all();
-        const users = await User.query().where(builder => {
-            if (search) builder.where('name', 'like', `%${search}%`).orWhere('email', 'like', `%${search}%`);
-        }).paginate(+page, +limit);
-        return response.json(userTransformerCollection(users));
+        const users = await User.query()
+            .select('id', 'name', 'email', 'user_type_id')
+            .where(builder => {
+                if (search) builder.where('name', 'like', `%${search}%`).orWhere('email', 'like', `%${search}%`);
+            })
+            .with('student', builder => builder.select('id', 'user_id', 'gym_id'))
+            .with('owner', builder => builder.select('id', 'user_id'))
+            .paginate(+page, +limit);
+        return response.json(users);
     }
 
     /**
@@ -47,7 +52,6 @@ class UserController {
         try {
             const { id } = params;
             const user = await User.findOrFail(id);
-            await user.load('gym');
             return response.json(userTransformer(user));
         } catch (error) {
             response.status(400).send({ message: 'Usuário não existe' });

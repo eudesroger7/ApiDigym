@@ -28,6 +28,22 @@ class User extends Model {
     tokens() {
         return this.hasMany('App/Models/Token')
     }
+
+    /**
+   * @method student
+   * @return {Object}
+   */
+    student() {
+        return this.hasOne('App/Models/Student')
+    }
+
+    /**
+   * @method owner
+   * @return {Object}
+   */
+    owner() {
+        return this.hasOne('App/Models/Owner')
+    }
 }
 
 module.exports = User

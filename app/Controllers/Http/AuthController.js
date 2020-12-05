@@ -1,5 +1,6 @@
 'use strict';
-const { userTransformer } = use('App/Transformers/User');
+
+const User = use('App/Models/User');
 
 class AuthController {
     /**
@@ -22,8 +23,11 @@ class AuthController {
      * @returns {Promise<*>}
      */
     async authenticated({ auth, response }) {
-        const userLogged = await auth.getUser();
-        return response.json(userTransformer(userLogged));
+        const { id } = await auth.getUser();
+        const user = await User.findOrFail(id);
+        await user.load('student');
+        await user.load('owner');
+        return response.json(user);
     }
 }
 

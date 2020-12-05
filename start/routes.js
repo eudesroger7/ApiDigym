@@ -20,7 +20,7 @@ Route.on('/').render('welcome');
 
 Route.group(() => {
     Route.post('token', 'AuthController.token');
-    Route.get('authenticated', 'AuthController.authenticated').middleware(['auth']);
+    Route.get('authenticated', 'AuthController.authenticated');
 }).prefix('auth');
 
 Route.group(() => {
@@ -30,7 +30,7 @@ Route.group(() => {
     Route.get(':id', 'UserController.show');
     Route.put(':id', 'UserController.update');
     Route.delete(':id', 'UserController.destroy');
-}).prefix('api/users').middleware(['auth']);
+}).prefix('api/users');
 
 Route.group(() => {
     Route.get('', 'OwnerController.index');
@@ -38,7 +38,7 @@ Route.group(() => {
     Route.get(':id', 'OwnerController.show');
     Route.put(':id', 'OwnerController.update');
     Route.delete(':id', 'OwnerController.destroy');
-}).prefix('api/owners').middleware(['auth']);
+}).prefix('api/owners');
 
 Route.group(() => {
     Route.get('', 'StudentController.index');
@@ -46,7 +46,7 @@ Route.group(() => {
     Route.get(':id', 'StudentController.show');
     Route.put(':id', 'StudentController.update');
     Route.delete(':id', 'StudentController.destroy');
-}).prefix('api/students').middleware(['auth']);
+}).prefix('api/students');
 
 Route.group(() => {
     Route.get('', 'GymController.index');
@@ -54,7 +54,7 @@ Route.group(() => {
     Route.get(':id', 'GymController.show');
     Route.put(':id', 'GymController.update');
     Route.delete(':id', 'GymController.destroy');
-}).prefix('api/gyms').middleware(['auth']);
+}).prefix('api/gyms');
 
 Route.group(() => {
     Route.get('', 'TrainingController.index');
@@ -62,4 +62,4 @@ Route.group(() => {
     Route.get(':id', 'TrainingController.show');
     Route.put(':id', 'TrainingController.update');
     Route.delete(':id', 'TrainingController.destroy');
-}).prefix('api/training').middleware(['auth']);
+}).prefix('api/training');
