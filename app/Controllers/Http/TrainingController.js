@@ -16,7 +16,7 @@ class TrainingController {
 
         const training = await Training.query().select('id', 'start_time', 'finish_time', 'gym_id', 'student_id', 'created_at')
             .where(builder => {
-                if (student_id) builder.where('student_id', student_id)
+                if (student_id) builder.where('student_id', student_id).whereNotNull('finish_time')
                 if (gym_id) builder.where('gym_id', gym_id)
             })
             .with('gym', builder => builder.select('id', 'name'))
@@ -32,7 +32,7 @@ class TrainingController {
      */
     async store({ request, response }) {
         const { student_id, gym_id } = request.body;
-        const start_time = format(new Date(), 'HH:mm');
+        const start_time = new Date();
         const training = await Training.create({ student_id, gym_id, start_time });
         return response.json(training);
     }
@@ -102,6 +102,25 @@ class TrainingController {
         } catch (error) {
             response.status(400).send({ message: 'Treino não existe' });
         }
+    }
+
+    /**
+     * current
+     * @param request
+     * @param response
+     * @returns {Promise<*>}
+     */
+    async current({ request, response }) {
+        const { student_id } = request.all();
+
+        const training = await Training.query().select('id', 'start_time', 'finish_time', 'gym_id', 'student_id', 'created_at')
+            .where(builder => {
+                builder.whereNull('finish_time')
+                if (student_id) builder.where('student_id', student_id)
+            })
+            .with('gym', builder => builder.select('id', 'name'))
+            .first();
+        return response.json(training);
     }
 }
 

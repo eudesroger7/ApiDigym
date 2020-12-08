@@ -9,11 +9,14 @@ class StudentController {
      * @returns {Promise<*>}
      */
     async index({ request, response }) {
-        const { page = 1, limit = 20, search } = request.all();
+        const { page = 1, limit = 20, search, owner_id } = request.all();
 
         const students = await Student.query().select('id', 'user_id', 'gym_id')
+            .whereHas('gym', builder => {
+                if(owner_id) builder.where('owner_id', owner_id);
+            })
             .with('user', builder => builder.select('id', 'name', 'email'))
-            .with('gym', builder => builder.select('id', 'name'))
+            .with('gym', builder => builder.select('id', 'name', 'owner_id'))
             .paginate(+page, +limit);
         return response.json(students);
     }

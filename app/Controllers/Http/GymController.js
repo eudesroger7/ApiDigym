@@ -1,6 +1,6 @@
 'use strict';
 const Gym = use('App/Models/Gym');
-const { gymTransformer, gymTransformerCollection } = use('App/Transformers/Gym');
+const Student = use('App/Models/Student');
 
 class GymController {
     /**
@@ -16,6 +16,7 @@ class GymController {
                 if (search) builder.where('name', 'like', `%${search}%`).orWhere('phone', 'like', `%${search}%`);
                 if (owner_id) builder.where('owner_id', owner_id)
             })
+            .withCount('students')
             .paginate(+page, +limit);
         return response.json(gyms);
     }
@@ -29,13 +30,7 @@ class GymController {
     async store({ request, response }) {
         const {
             name,
-            street,
-            number,
-            city,
-            district,
-            complement,
-            state,
-            zip_code,
+            address,
             lat,
             lng,
             capacity,
@@ -44,13 +39,7 @@ class GymController {
         } = request.body;
         const gym = await Gym.create({
             name,
-            street,
-            number,
-            city,
-            district,
-            complement,
-            state,
-            zip_code,
+            address,
             lat,
             lng,
             capacity,

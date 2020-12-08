@@ -57,6 +57,7 @@ Route.group(() => {
 }).prefix('api/gyms');
 
 Route.group(() => {
+    Route.get('current', 'TrainingController.current');
     Route.get('', 'TrainingController.index');
     Route.post('', 'TrainingController.store');
     Route.get(':id', 'TrainingController.show');

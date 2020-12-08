@@ -25,7 +25,7 @@ class AuthController {
     async authenticated({ auth, response }) {
         const { id } = await auth.getUser();
         const user = await User.findOrFail(id);
-        await user.load('student');
+        await user.load('student', builder => builder.with('gym'));
         await user.load('owner');
         return response.json(user);
     }

@@ -9,8 +9,8 @@ class GymsSchema extends Schema {
             table.increments();
             table.string('name', 150).notNullable();
             table.string('address', 350).nullable();
-            table.float('lat').nullable();
-            table.float('lng').nullable();
+            table.float('lat', 8, 5).nullable();
+            table.float('lng', 8, 5).nullable();
             table.integer('capacity').notNullable();
             table.string('phone').nullable();
             table.integer('owner_id').unsigned().references('id').inTable('owners');
